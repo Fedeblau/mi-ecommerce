@@ -4,11 +4,11 @@ const Item = ({ elemento }) => {
     return (
         <div>
             <h3>
-                {elemento.nombre}
+                {elemento.title}
             </h3>
-            <img src={elemento.img} alt="botella" width={"300px"} height={"400px"} />
-            <p>{elemento.uva}</p>
-            <p>$ {elemento.precio}</p>
+            <img src={elemento.image} alt="botella" width={"300px"} height={"400px"} />
+            <p>{elemento.category}</p>
+            <p>$ {elemento.price}</p>
         </div>
     )
 }

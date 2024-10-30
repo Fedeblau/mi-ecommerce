@@ -6,30 +6,72 @@ import { getProducts, getProductsByCategory } from '../../data/backend-falso'
 const ItemListContainer = ({ mensaje, fn }) => {
   const [products, setProducts] = useState([])
   const [uva, setUva] = useState("")
-  const [cargando, setCargando] = useState(true)
+  const [cargando, setCargando] = useState(false)
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   setCargando(true)
+  //   if (uva) {
+  //     getProductsByCategory(uva)
+  //       .then(res => setProducts(res))
+  //       .catch(e => console.error(e))
+  //       .finally(()=>setCargando(false))
+  //   } else {
+  //     getProducts()
+  //       .then(res => setProducts(res))
+  //       .catch(e => console.error(e))
+  //       .finally(()=> setCargando(false))
+  //   }
+  // }, [uva])
+
+
+
+  // fetch('https://fakestoreapi.com/products')
+  //           .then(res=>res.json())
+  //           .then(json=>console.log(json))
+  
+  
+  
+  useEffect(()=>{
+    //async await
     setCargando(true)
-    if (uva) {
-      getProductsByCategory(uva)
-        .then(res => setProducts(res))
-        .catch(e => console.error(e))
-        .finally(setCargando(false))
-    } else {
-      getProducts()
-        .then(res => setProducts(res))
-        .catch(e => console.error(e))
-        .finally(setCargando(false))
+    if(uva) {
+      fetch(`https://fakestoreapi.com/products/category/${uva}`)
+      .then(res=>res.json())
+      .then(json=>setProducts(json))
+      .finally(setCargando(false))
+    }else{
+      fetch("https://fakestoreapi.com/products")
+      .then(res=>res.json())
+      .then(res=>setProducts(res))
+      .finally(setCargando(false))
     }
   }, [uva])
+  
+
+
+
+
+
+
+  console.log( products)
+
+  // getProducts().then(res => setProducts(res)).finally(setCargando(false))
+  
+  // useEffect(() => {
+  //   // console.log("con el array de dependencias vacio se ejecuta solo la primera vez")
+  //   // console.log("sin n el array de dependencias vacio se ejecuta en cada render ")
+  //   console.log("cada vez que cambie uva")
+
+  // }  , [uva] )
+
+  // console.log("se renderiza")
+
 
   const changeUva = (uva) => {
     setUva(uva)
   }
 
-  console.log("uva: ", uva)
-
-
+  console.log("uva: ", cargando)
 
   return (
     <>
@@ -41,9 +83,9 @@ const ItemListContainer = ({ mensaje, fn }) => {
       <div>
         <div>
           <Button fn={() => changeUva("malbec")} text="malbec" />
-          <Button fn={() => changeUva("tinto")} text="tinto" />
-          <Button fn={() => changeUva("torrontes")} text="torrontes" />
-          <Button fn={() => changeUva("")} text="todas" />
+          <Button fn={() => changeUva("men's clothing")} text="ropa de hombre" />
+          <Button fn={() => changeUva("jewelery")} text="jewelery" />
+          <Button fn={() => setCargando(true)} text="cargar" />
 
         </div>
         {
